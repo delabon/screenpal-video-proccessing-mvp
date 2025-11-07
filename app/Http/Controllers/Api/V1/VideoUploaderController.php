@@ -6,8 +6,10 @@ use App\Enums\VideoStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VideoUploadRequest;
 use App\Jobs\ProcessVideo;
+use App\Models\Video;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
@@ -17,6 +19,8 @@ final class VideoUploaderController extends Controller
 {
     public function __invoke(VideoUploadRequest $request): JsonResponse
     {
+        Gate::authorize('create', [Video::class]);
+
         $user = $request->user();
         $file = $request->file('video');
         $disk = config('filesystems.default');

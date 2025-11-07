@@ -23,6 +23,6 @@ class VideoVariant extends Model
 
     public function originalVideo(): BelongsTo
     {
-        return $this->belongsTo(Video::class);
+        return $this->belongsTo(Video::class, 'video_id');
     }
 }

@@ -42,7 +42,7 @@ new class extends Component {
                     @if(!empty($video->variants))
                         <div class="flex flex-wrap gap-3">
                             @foreach($video->variants as $variant)
-                                <a href="#" class="underline">{{ $variant->resolution->value }}</a>
+                                <a href="{{ route('videos.variants.download', $variant->id) }}" target="_blank" class="underline">{{ $variant->resolution->value }}</a>
                             @endforeach
                         </div>
                     @endif

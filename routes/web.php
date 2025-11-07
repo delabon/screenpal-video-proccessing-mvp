@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\VideoVariantDownloadController;
+use App\Http\Controllers\DownloadController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 use Livewire\Volt\Volt;
@@ -16,7 +16,8 @@ Route::view('dashboard', 'dashboard')
 Route::prefix('videos')->middleware(['auth', 'verified'])->name('videos.')->group(function () {
     Route::view('/', 'videos')->name('index');
 
-    Route::get('/download/{variant}', VideoVariantDownloadController::class)->name('variants.download');
+    Route::get('/download/video/{video}', [DownloadController::class, 'video'])->name('download');
+    Route::get('/download/variant/{variant}', [DownloadController::class, 'variant'])->name('variants.download');
 });
 
 Route::middleware(['auth'])->group(function () {

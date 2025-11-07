@@ -21,40 +21,46 @@ new class extends Component {
 }; ?>
 
 <div>
-    <table class="table-auto w-full">
-        <thead>
-            <tr class="align-top">
-                <th class="text-left border-b">ID</th>
-                <th class="text-left border-b">Name</th>
-                <th class="text-left border-b">Status</th>
-                <th class="text-left border-b">Resolutions</th>
-                <th class="text-left border-b">Uploaded At</th>
-                <th class="text-left border-b">Updated At</th>
-            </tr>
-        </thead>
-        <tbody>
-        @foreach($videos as $video)
-            <tr class="align-top">
-                <td>{{ $video->id }}</td>
-                <td>{{ $video->name }}</td>
-                <td>{{ $video->status->label() }}</td>
-                <td>
-                    @if(!empty($video->variants))
+    @if($videos->isNotEmpty())
+        <table class="table-auto w-full">
+            <thead>
+                <tr class="align-top">
+                    <th class="text-left border-b">ID</th>
+                    <th class="text-left border-b">Name</th>
+                    <th class="text-left border-b">Status</th>
+                    <th class="text-left border-b">Resolutions</th>
+                    <th class="text-left border-b">Uploaded At</th>
+                    <th class="text-left border-b">Updated At</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach($videos as $video)
+                <tr class="align-top">
+                    <td>{{ $video->id }}</td>
+                    <td>{{ $video->name }}</td>
+                    <td>{{ $video->status->label() }}</td>
+                    <td>
                         <div class="flex flex-wrap gap-3">
-                            @foreach($video->variants as $variant)
-                                <a href="{{ route('videos.variants.download', $variant->id) }}" target="_blank" class="underline">{{ $variant->resolution->value }}</a>
-                            @endforeach
-                        </div>
-                    @endif
-                </td>
-                <td>{{ $video->created_at->format('j M, Y') }}</td>
-                <td>{{ $video->updated_at->format('j M, Y') }}</td>
-            </tr>
-        @endforeach
-        </tbody>
-    </table>
+                            <a href="{{ route('videos.download', $video->id) }}" target="_blank" class="underline">Original</a>
 
-    <div class="mt-6">
-        {{ $videos->links() }}
-    </div>
+                            @if(!empty($video->variants))
+                                @foreach($video->variants as $variant)
+                                    <a href="{{ route('videos.variants.download', $variant->id) }}" target="_blank" class="underline">{{ $variant->resolution->value }}</a>
+                                @endforeach
+                            @endif
+                        </div>
+                    </td>
+                    <td>{{ $video->created_at->format('j M, Y') }}</td>
+                    <td>{{ $video->updated_at->format('j M, Y') }}</td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
+
+        <div class="mt-6">
+            {{ $videos->links() }}
+        </div>
+    @else
+        <p>No videos yet. Please upload one using our API or by clicking on the "Upload Video" button.</p>
+    @endif
 </div>

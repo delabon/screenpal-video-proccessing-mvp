@@ -6,5 +6,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
     Route::post('/videos/upload', VideoUploaderController::class)
-        ->middleware('auth:sanctum');
+        ->middleware(['auth:sanctum', 'throttle:10,1']); // 10 requests per minute
 });

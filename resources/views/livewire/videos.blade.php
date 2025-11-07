@@ -61,6 +61,6 @@ new class extends Component {
             {{ $videos->links() }}
         </div>
     @else
-        <p>No videos yet. Please upload one using our API or by clicking on the "Upload Video" button.</p>
+        <p>No videos yet. Please upload one using our API.</p>
     @endif
 </div>

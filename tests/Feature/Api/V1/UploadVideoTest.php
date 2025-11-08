@@ -12,7 +12,7 @@ beforeEach(function () {
 });
 
 it('returns 401 for unauthenticated requests', function () {
-    $response = $this->postJson('/api/v1/videos/upload');
+    $response = $this->postJson('/api/v1/videos');
 
     $response->assertStatus(401);
 });
@@ -22,7 +22,7 @@ it('validates the video input and fails for missing or wrong file', function () 
     $this->actingAs($user, 'sanctum');
 
     // Missing file
-    $response = $this->postJson('/api/v1/videos/upload', []);
+    $response = $this->postJson('/api/v1/videos', []);
     $response->assertStatus(422);
     $response->assertJsonValidationErrors('video');
 
@@ -30,7 +30,7 @@ it('validates the video input and fails for missing or wrong file', function () 
     Storage::fake(config('filesystems.default'));
     $badFile = UploadedFile::fake()->create('not-a-video.txt', 10, 'text/plain');
 
-    $response = $this->postJson('/api/v1/videos/upload', ['video' => $badFile]);
+    $response = $this->postJson('/api/v1/videos', ['video' => $badFile]);
     $response->assertStatus(422);
     $response->assertJsonValidationErrors('video');
 });
@@ -44,7 +44,7 @@ it('stores an uploaded video, creates a DB record and dispatches the processing 
 
     $file = UploadedFile::fake()->create('video.mp4', 5120, 'video/mp4'); // 5MB
 
-    $response = $this->postJson('/api/v1/videos/upload', [
+    $response = $this->postJson('/api/v1/videos', [
         'video' => $file,
     ]);
 

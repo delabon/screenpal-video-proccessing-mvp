@@ -14,7 +14,12 @@
             <flux:navlist variant="outline">
                 <flux:navlist.group :heading="__('Platform')" class="grid">
                     <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
-                    <flux:navlist.item icon="play" :href="route('videos.index')" :current="request()->routeIs('videos')" wire:navigate>{{ __('Videos') }}</flux:navlist.item>
+                    <flux:navlist.item icon="play" :href="route('videos.index')" :current="request()->routeIs('videos')" wire:navigate>
+                        <div class="flex items-center justify-between gap-3 flex-wrap">
+                            {{ __('Videos') }}
+                            <span class="border rounded-full p-0.5 text-xs w-[22px] h-[22px] inline-flex items-center justify-center">{{ app(\App\Repositories\VideoRepository::class)->userVideosCount(auth()->user()) }}</span>
+                        </div>
+                    </flux:navlist.item>
                 </flux:navlist.group>
             </flux:navlist>
 

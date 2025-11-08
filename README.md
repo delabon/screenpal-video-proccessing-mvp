@@ -28,45 +28,61 @@ These instructions assume you're on a Linux machine with composer installed and 
 
 1. Clone the repository
 
-   git clone git@github.com:delabon/screenpal-video-proccessing-mvp.git
-   cd screenpal-video-proccessing-mvp
+```shell
+git clone git@github.com:delabon/screenpal-video-proccessing-mvp.git
+cd screenpal-video-proccessing-mvp
+```
 
 2. Install dependencies
-    
-    composer install
+
+```shell
+composer install
+```
 
 3. Build the docker image
 
-    vendor/bin/sail up -d
+```shell
+vendor/bin/sail up -d
+```
 
 4. Copy environment file and set app key
 
-   cp .env.example .env
-   # If using Sail, you can generate the key after starting Sail. Otherwise run locally:
-   vendor/bin/sail artisan key:generate
+```shell
+cp .env.example .env
+# If using Sail, you can generate the key after starting Sail. Otherwise run locally:
+vendor/bin/sail artisan key:generate
+```
 
 5. Install Node dependencies
 
-   vendor/bin/sail npm install
-   vendor/bin/sail npm run build
+```shell
+vendor/bin/sail npm install
+vendor/bin/sail npm run build
+```
 
 6. Database & migrations
 
-   # By default the app uses SQLite for local development. Create the storage/database file:
-   vendor/bin/sail touch database/database.sqlite
-   vendor/bin/sail artisan migrate --step
+```shell
+# By default the app uses SQLite for local development. Create the storage/database file:
+vendor/bin/sail touch database/database.sqlite
+vendor/bin/sail artisan migrate --step
+```
 
 7. Redis & Queues
 
-   vendor/bin/sail artisan queue:work --tries=3
+```shell
+vendor/bin/sail artisan queue:work --tries=3
+```
 
 8. Storage link
 
+```shell
    vendor/bin/sail artisan storage:link
+```
 
 9. Open the app
 
-   # The app will be available at http://localhost when Sail is running.
+The app will be available at http://localhost when Sail is running.
 
 ## Usage
 

@@ -8,6 +8,7 @@ use App\Http\Requests\VideoUploadRequest;
 use App\Jobs\ProcessVideo;
 use App\Models\Video;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
@@ -56,6 +57,8 @@ final class VideoUploaderController extends Controller
                 ]);
 
             ProcessVideo::dispatch($video->id);
+
+            Cache::forget('user_' . $user->id . '_videos_count');
 
             DB::commit();
 

@@ -23,8 +23,8 @@ new class extends Component {
 
     public function delete(int $id): void
     {
-        $video = auth()->user()
-            ->videos()
+        $user = auth()->user();
+        $video = $user->videos()
             ->findOrFail($id);
 
         $this->authorize('delete', $video);
@@ -52,6 +52,8 @@ new class extends Component {
         }
 
         $video->delete();
+
+        Cache::forget('user_' . $user->id . '_videos_count');
 
         $this->js('alert("Your video has been deleted.")');
     }
